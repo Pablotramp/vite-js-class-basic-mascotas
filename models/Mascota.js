@@ -16,6 +16,7 @@ export class Mascota {
    * @param {number} Mascota.edad En número entero
    * @param {string} Mascota.id Identificador único
    */
+
   constructor ({
     name = 'Desconocido',
     type = 'Cánido',
@@ -46,6 +47,10 @@ export class Mascota {
    */
   set age (edad) {
     if (Number.isInteger(Number(edad))) this.edad = edad
+  }
+
+  getId () {
+    return this.#id
   }
 
   /**

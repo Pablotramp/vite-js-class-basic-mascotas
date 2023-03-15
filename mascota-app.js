@@ -1,5 +1,5 @@
 import { v4 as generarCodigo } from 'uuid'
-import { Mascota } from './models/Mascota'
+import { Mascota, Perro } from './models'
 import formRaw from './templates/form-mascotas.html?raw'
 
 /**
@@ -16,24 +16,48 @@ function manipulacionFormulario (element) {
     const tipo = element.tipo.value.trim()
     const genero = element.genero.value
     const edad = Number(element.edad.value)
+    let p1 = null
 
-    // Instancias la clase y cargas datos
-    const p1 = new Mascota({
-      name: nombre,
-      type: tipo,
-      microchip,
-      id: generarCodigo(),
-      age: edad,
-      sexo: genero
-    })
+    if (element['tipo-mascota'].value === 'mascota') {
+      // Instancias la clase y cargas datos
+        p1 = new Mascota({
+        name: nombre,
+        type: tipo,
+        microchip,
+        id: generarCodigo(),
+        age: edad,
+        sexo: genero
+      })
+    } else {
+      p1 = new Perro({
+        name: nombre,
+        type: tipo,
+        microchip,
+        id: generarCodigo(),
+        age: edad,
+        sexo: genero
+      }, {raza: 'molo', peso: 343, alimentacion: 'lala'})
+    }
+
     // Mostrar datos
-    element.querySelector('#content').innerHTML = p1.getData()
+    if (p1) element.querySelector('#content').innerHTML = p1.getData()
   })
   element.querySelector('#rango-edad')
     .addEventListener('input', (e) => {
       const input = e.target
       element.querySelector('#edad').value = input.value
     })
+  element['tipo-mascota'].addEventListener('change', e => {
+    const select = e.target
+    const divElement = element.querySelector('#otros-campos')
+    if (select.value === 'perro') {
+      // Muestro campos
+      divElement.classList.remove('oculto')
+    } else {
+      // oculto campos
+      divElement.classList.add('oculto')
+    }
+  })
 }
 
 /**
