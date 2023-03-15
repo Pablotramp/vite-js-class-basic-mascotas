@@ -1,0 +1,39 @@
+<form id="myForm" class="grid">
+  <fieldset>
+    <div class="field">
+      <label for="nombre">Nombre</label>
+      <input placeholder="Lily" required type="text" name="nombre" id="nombre">
+      <ins>Este campo es obligatorio</ins>
+    </div>
+    <div class="field">
+      <label for="microchip">Microchip</label>
+      <input placeholder="3434342424242422" required type="text" name="microchip" id="microchip">
+      <ins>Este campo es obligatorio</ins>
+    </div>
+    <div class="field">
+      <label for="tipo">Tipo</label>
+      <input placeholder="Cánido" type="text" name="tipo" id="tipo">
+    </div>
+    <div class="field">
+      <label for="edad">Edad</label>
+      <input value="0" disabled type="number" min="0" max="300" name="edad" id="edad">
+      <input type="range" id="rango-edad" max="300" value="0">
+    </div>
+    <div class="field">
+      <fieldset>
+        <legend>Sexo</legend>
+        <label>
+          <input checked type="radio" name="genero" value="f">
+          Hembra
+        </label>
+        <label>
+          <input type="radio" name="genero" value="m">
+          Macho
+        </label>
+      </fieldset>
+    </div>
+    <button>Nueva mascota</button>
+  </fieldset>
+  <div id="content">
+  </div>
+</form>
