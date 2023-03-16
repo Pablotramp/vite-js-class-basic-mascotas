@@ -16,7 +16,6 @@ function gestionFormulario (element) {
     const type = element.type.value.trim()
     const gender = element.gender.value
     const age = Number(element.age.value)
-    
     const data = {
       name,
       microchip,
