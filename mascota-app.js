@@ -1,51 +1,46 @@
 import { v4 as generarCodigo } from 'uuid'
-import { Mascota, Perro } from './models'
-import formRaw from './templates/form-mascotas.html?raw'
+import formRaw from './mascotas/templates/form-mascotas.html?raw'
+import { renderizarMascota } from './mascotas/views/render-mascota'
 
 /**
  * Gestionar los eventos del formulario
  * @param {HTMLFormElement} element
  */
-function manipulacionFormulario (element) {
+function gestionFormulario (element) {
   element.addEventListener('submit', (e) => {
     e.preventDefault()
 
-    // Validación datos
-    const nombre = element.nombre.value.trim()
+    // Obtención datos formularios Validación datos
+    const name = element.name.value.trim()
     const microchip = element.microchip.value.trim()
-    const tipo = element.tipo.value.trim()
-    const genero = element.genero.value
-    const edad = Number(element.edad.value)
-    let p1 = null
-
-    if (element['tipo-mascota'].value === 'mascota') {
-      // Instancias la clase y cargas datos
-        p1 = new Mascota({
-        name: nombre,
-        type: tipo,
-        microchip,
-        id: generarCodigo(),
-        age: edad,
-        sexo: genero
-      })
-    } else {
-      p1 = new Perro({
-        name: nombre,
-        type: tipo,
-        microchip,
-        id: generarCodigo(),
-        age: edad,
-        sexo: genero
-      }, {raza: 'molo', peso: 343, alimentacion: 'lala'})
+    const type = element.type.value.trim()
+    const gender = element.gender.value
+    const age = Number(element.age.value)
+    
+    const data = {
+      name,
+      microchip,
+      type,
+      gender,
+      age,
+      id: generarCodigo()
     }
-
-    // Mostrar datos
-    if (p1) element.querySelector('#content').innerHTML = p1.getData()
+    if (element['tipo-mascota'].value === 'mascota') {
+      renderizarMascota(data, 'mascota')
+    } else {
+      const weight = Number(element.weight.value)
+      const food = element.food.value
+      const race = element.race.value
+      renderizarMascota({ weight, food, race, ...data }, 'perro')
+    }
   })
-  element.querySelector('#rango-edad')
+}
+
+function manipulacionFormulario (element) {
+  element.querySelector('#range-age')
     .addEventListener('input', (e) => {
       const input = e.target
-      element.querySelector('#edad').value = input.value
+      element.querySelector('#age').value = input.value
     })
   element['tipo-mascota'].addEventListener('change', e => {
     const select = e.target
@@ -68,5 +63,6 @@ export function mascotaApp (rootElement) {
   if (!rootElement) throw new Error('Elemento raíz no encontrado')
   rootElement.innerHTML = '<h1>Mascotas</h1>'
   rootElement.innerHTML += formRaw
+  gestionFormulario(rootElement.querySelector('#myForm'))
   manipulacionFormulario(rootElement.querySelector('#myForm'))
 }
